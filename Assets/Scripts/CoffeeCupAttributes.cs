@@ -41,4 +41,13 @@ public class CoffeeCupAttributes : MonoBehaviour
 		}
 		coffeeObj.SetActive(true);
     }
+
+	public void setMilkType(int desMilk)
+	{
+		milkType = desMilk;
+		if(milkType != (int)IngredientValues.Milk.noMilk)
+		{
+			coffeeImg.color = Color.Lerp(Color.white, coffeeImg.color, 0.8f);
+		}
+	}
 }

@@ -20,7 +20,8 @@ public class IngredientValues : MonoBehaviour
         almondMilk, //light in body and flavor, but has a distinct nutty taste
         riceMilk, //most similar to skim milk with a thin body
         soyMilk, //thicker and sweeter than almond milk
-        cashewMilk //neutral taste that lets the coffee speak for itself
+        cashewMilk, //neutral taste that lets the coffee speak for itself
+        noMilk
     }
 
     public enum Toppings
