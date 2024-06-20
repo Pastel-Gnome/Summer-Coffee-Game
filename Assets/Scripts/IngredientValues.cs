@@ -14,14 +14,14 @@ public class IngredientValues : MonoBehaviour
 
     public enum Milk
     {
-        wholeMilk,
+		noMilk,
+		wholeMilk,
         skimMilk,
         coconutMilk, //mildly nutty flavor with a unique aftertaste
         almondMilk, //light in body and flavor, but has a distinct nutty taste
         riceMilk, //most similar to skim milk with a thin body
         soyMilk, //thicker and sweeter than almond milk
-        cashewMilk, //neutral taste that lets the coffee speak for itself
-        noMilk
+        cashewMilk //neutral taste that lets the coffee speak for itself
     }
 
     public enum Toppings
