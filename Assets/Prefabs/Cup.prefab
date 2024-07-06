@@ -164,6 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32f7e65533daa342bf0e4f2c0e0d701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coffeeType: 0
+  coffeeType: -1
   milkType: 0
   toppingsAdded: 

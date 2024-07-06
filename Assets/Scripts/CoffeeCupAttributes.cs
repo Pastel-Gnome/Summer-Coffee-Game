@@ -1,14 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CoffeeCupAttributes : MonoBehaviour
 {
-    public int coffeeType = 0;
+    public int coffeeType = -1;
     public int milkType = 0;
     public List<int> toppingsAdded = new List<int>();
+	//public int myStation; // used if cups need to be found
 	private GameObject coffeeObj;
 	private Image coffeeImg;
 
