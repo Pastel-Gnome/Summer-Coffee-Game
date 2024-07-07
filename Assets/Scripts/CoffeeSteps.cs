@@ -8,9 +8,9 @@ public class CoffeeSteps : MonoBehaviour
 	[SerializeField] StationControl sc;
 	[SerializeField] GameObject cupPrefab;
 	[SerializeField] GameObject currentScreen;
-
 	public void startOrder() //activated on order screen
 	{
+		OrderDisplay.orderDisplay.StartOrder();
 		currentScreen.GetComponentInChildren<Button>().interactable = false;
 	}
 
@@ -72,11 +72,18 @@ public class CoffeeSteps : MonoBehaviour
 		}
 	}
 
+	public void ChooseCupSize(int cupSize)
+	{
+		currentFocus.SetCupSize((IngredientValues.CupSize)cupSize);
+		sc.IsCupSizeSelected = true;
+	}
+
 	public void addCoffee(int desCoffee)
 	{
 		currentFocus.setCoffeeType(desCoffee);
+		LiquidPourEffectController.liquidPourEffectController.Begin();
+		StartCoroutine(currentFocus.FillCup());
 	}
-
 	public void addMilk(int desMilk)
 	{
 		currentFocus.setMilkType(desMilk);
@@ -96,7 +103,11 @@ public class CoffeeSteps : MonoBehaviour
 			currentFocus = nextCoffeeInfo;
 		}
 	}
-
+	public void stopCoffeePouring()
+	{
+		StopAllCoroutines();
+		LiquidPourEffectController.liquidPourEffectController.stopCoffeePouring();
+	}
 	public void serveOrder()
 	{
 		removeCupFromMachine(4);

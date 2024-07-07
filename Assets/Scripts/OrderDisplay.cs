@@ -6,12 +6,23 @@ using System.Collections;
 
 public class OrderDisplay : MonoBehaviour
 {
+    public static OrderDisplay orderDisplay;
     public CanvasGroup[] ingredientsEntries; // will be replaced with the ingredientsEntries prefab 
     public CanvasGroup[]dottedLinePrefabs;
 
     public float displayDuration = 2.0f;
-
-    void Start()
+    private void Awake()
+    {
+        if (orderDisplay == null)
+        {
+            OrderDisplay.orderDisplay = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+    public void StartOrder()
     {
         StartCoroutine(DisplayOrders());
     }

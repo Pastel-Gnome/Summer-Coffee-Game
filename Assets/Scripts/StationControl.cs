@@ -1,15 +1,26 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StationControl : MonoBehaviour
 {
 	[SerializeField] CoffeeSteps cs;
 	Button[] stationButtons;
+	[SerializeField]  string[] stationScenesNames;
 
 	[SerializeField] Button brewCoffeeButton;
 	[SerializeField] Button chooseMilkButton;
+	[SerializeField] GameObject CupSizeChoices;
 	[SerializeField] GameObject coffeeChoices;
 	[SerializeField] GameObject milkChoices;
+
+	private bool isCupSizeSelected = false;
+
+	public bool IsCupSizeSelected
+	{
+		get { return isCupSizeSelected; }
+		set { isCupSizeSelected = value; }
+	}
 
 	private void Start()
 	{
@@ -22,6 +33,8 @@ public class StationControl : MonoBehaviour
 		//disable brew coffee and choose milk buttons, so choice cannot be made without a cup
 		disableMachineButton(1);
 		disableMachineButton(2);
+		setCurrentScreen(0);
+
 	}
 
 	public void setCurrentScreen(int desScreen)
@@ -31,6 +44,8 @@ public class StationControl : MonoBehaviour
 			cs.transform.GetChild(i).gameObject.SetActive(false);
 		}
 		cs.transform.GetChild(desScreen).gameObject.SetActive(true);
+		if (desScreen > 0) SceneManager.UnloadSceneAsync(stationScenesNames[desScreen - 1]);
+		SceneManager.LoadScene(stationScenesNames[desScreen], LoadSceneMode.Additive);
 
 		if (desScreen >= 0)
 		{
@@ -129,7 +144,7 @@ public class StationControl : MonoBehaviour
 	{
 		if (station == 1) //brewing station
 		{
-			coffeeChoices.SetActive(true);
+			(isCupSizeSelected ? coffeeChoices : CupSizeChoices).SetActive(true);
 		}
 		else if (station == 2) //milk station
 		{

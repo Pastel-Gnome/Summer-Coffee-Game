@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 64df50c409d8134448fef04edcadb9b1
+  - enabled: 1
+    path: Assets/Scenes/Ordering.unity
+    guid: da9443df75e2af34984a79dcec4b9ea0
+  - enabled: 1
+    path: Assets/Scenes/Coffee Station.unity
+    guid: 86ef14306c131404380cc2f756ce92da
+  - enabled: 1
+    path: Assets/Scenes/Milk Station.unity
+    guid: c5a46db9f2afa1b4591a7bb6bf80d6e8
+  - enabled: 1
+    path: Assets/Scenes/Toppings.unity
+    guid: 5ba0dbb78d3d4d6449a59d5f032c8e89
+  - enabled: 1
+    path: Assets/Scenes/Serving.unity
+    guid: 32ba0efaa761c374e81aab1541744c18
   m_configObjects: {}

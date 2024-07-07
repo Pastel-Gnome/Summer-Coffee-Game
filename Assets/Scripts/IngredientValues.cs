@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class IngredientValues : MonoBehaviour
 {
+    public enum CupSize
+    {
+        Small,
+        Medium,
+        Large,
+    }
     public enum Coffee
     {
         lightRoast, //tastes light, fruity, and floral. has a higher amount of caffeine.
