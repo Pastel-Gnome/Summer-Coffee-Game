@@ -12,6 +12,7 @@ public class StationControl : MonoBehaviour
 
 	[SerializeField] Button brewCoffeeButton;
 	[SerializeField] Button chooseMilkButton;
+	[SerializeField] Button addToppingsButton;
 	[SerializeField] GameObject CupSizeChoices;
 	[SerializeField] GameObject coffeeChoices;
 	[SerializeField] GameObject milkChoices;
@@ -106,7 +107,26 @@ public class StationControl : MonoBehaviour
 							disableMachineButton(2);
 						}
 						break;
+					case 3: // topping 
+						if (cs.currentFocus != null) // if cup in-play
+						{
+							if (cs.currentFocus.toppingsAdded.Count == 0) // if no milk in cup
+							{
+								enableMachineButton(3);
+							}
+							else // if milk in cup
+							{
+								disableMachineButton(3);
+							}
+							enableAnchor(2);
+						}
+						else // if no cup is in-play
+						{
+							disableMachineButton(3);
+						}
+						break;
 					case 4: // will be the toppings; temporary the serving state
+						enableAnchor(3);
 
 						// Set current focus to cs.cupAnchor[desScreen - 1].gameObject
 						cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
@@ -136,7 +156,7 @@ public class StationControl : MonoBehaviour
 		}
 	}
 
-	private void enableAnchor(int index)
+	public void enableAnchor(int index)
 	{
 		// Disable all cup anchors
 		foreach (var anchor in cs.cupAnchor)
@@ -195,6 +215,10 @@ public class StationControl : MonoBehaviour
 		{
 			chooseMilkButton.interactable = false;
 		}
+		else if (station == 3) //milk station
+		{
+			addToppingsButton.interactable = false;
+		}
 	}
 
 	public void enableMachineButton(int station)
@@ -206,6 +230,10 @@ public class StationControl : MonoBehaviour
 		else if (station == 2) //milk station
 		{
 			chooseMilkButton.interactable = true;
+		}
+		else if (station == 3) //milk station
+		{
+			addToppingsButton.interactable = true;
 		}
 	}
 

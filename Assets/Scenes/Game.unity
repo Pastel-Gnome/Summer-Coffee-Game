@@ -859,6 +859,7 @@ MonoBehaviour:
   - Serving
   brewCoffeeButton: {fileID: 426145622}
   chooseMilkButton: {fileID: 407133802}
+  addToppingsButton: {fileID: 340067735}
   CupSizeChoices: {fileID: 1170235016}
   coffeeChoices: {fileID: 105594694}
   milkChoices: {fileID: 629783185}
@@ -1312,41 +1313,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246036455}
   m_CullTransparentMesh: 1
---- !u!1 &252199923
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 252199924}
-  m_Layer: 5
-  m_Name: CupAnchorServe
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &252199924
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252199923}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016487569}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &254138335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2005,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354450015}
   m_CullTransparentMesh: 1
---- !u!1 &387678305
+--- !u!1 &386806122
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2047,7 +2013,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 387678306}
+  - component: {fileID: 386806123}
   m_Layer: 5
   m_Name: CupAnchorTop
   m_TagString: Untagged
@@ -2055,25 +2021,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &387678306
-RectTransform:
+--- !u!4 &386806123
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 387678305}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 386806122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.114, y: 1.508, z: 2.892}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1808549373}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &407133801
 GameObject:
   m_ObjectHideFlags: 0
@@ -6197,8 +6159,8 @@ MonoBehaviour:
   cupAnchor:
   - {fileID: 1642525465}
   - {fileID: 886859160}
-  - {fileID: 387678306}
-  - {fileID: 252199924}
+  - {fileID: 386806123}
+  - {fileID: 1784625715}
   sc: {fileID: 235844520}
   cupPrefab: {fileID: 2523034495742640049, guid: 258229882771b904dab308330ef7d4fa, type: 3}
   currentScreen: {fileID: 1486005259}
@@ -8068,6 +8030,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777213390}
   m_CullTransparentMesh: 1
+--- !u!1 &1784625714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1784625715}
+  m_Layer: 5
+  m_Name: CupAnchorServe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1784625715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784625714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 1.355, z: 2.892}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1785685125
 GameObject:
   m_ObjectHideFlags: 0
@@ -8390,7 +8383,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 387678306}
   - {fileID: 340067734}
   - {fileID: 1919621434}
   m_Father: {fileID: 1331301969}
@@ -9882,7 +9874,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 252199924}
   - {fileID: 1555981322}
   m_Father: {fileID: 1331301969}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10397,4 +10388,6 @@ SceneRoots:
   - {fileID: 631429384}
   - {fileID: 1642525465}
   - {fileID: 886859160}
+  - {fileID: 386806123}
+  - {fileID: 1784625715}
   - {fileID: 630277216}

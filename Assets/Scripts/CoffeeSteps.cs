@@ -51,6 +51,11 @@ public class CoffeeSteps : MonoBehaviour
 				// milk station completed, send to topping station and reset milk station
 				sc.disableMachineButton(2);
 			}
+			else if (destination == 4)
+			{
+				sc.enableAnchor(3);
+				sc.disableMachineButton(3);
+			}
 			else if (destination != 4)
 			{
 				Debug.LogError("Removed cup from machine but no valid destination given. No action taken, returned to machine.");
