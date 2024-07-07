@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class StationControl : MonoBehaviour
 {
+	public static StationControl stationControl;
+
 	[SerializeField] CoffeeSteps cs;
 	Button[] stationButtons;
 	[SerializeField]  string[] stationScenesNames;
@@ -21,7 +23,17 @@ public class StationControl : MonoBehaviour
 		get { return isCupSizeSelected; }
 		set { isCupSizeSelected = value; }
 	}
-
+	private void Awake()
+	{
+		if (stationControl == null)
+		{
+			StationControl.stationControl = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 	private void Start()
 	{
 		stationButtons = new Button[transform.childCount];
@@ -44,7 +56,7 @@ public class StationControl : MonoBehaviour
 			cs.transform.GetChild(i).gameObject.SetActive(false);
 		}
 		cs.transform.GetChild(desScreen).gameObject.SetActive(true);
-		if (desScreen > 0) SceneManager.UnloadSceneAsync(stationScenesNames[desScreen - 1]);
+		UnloadScenes();
 		SceneManager.LoadScene(stationScenesNames[desScreen], LoadSceneMode.Additive);
 
 		if (desScreen >= 0)
@@ -54,50 +66,99 @@ public class StationControl : MonoBehaviour
 			if (desScreen > 0 && desScreen < 4)
 			{
 				cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
-
-				if (desScreen == 1) //coffee brewing
+				// WOULD NEED TO UPDATE ONCE THE UI IS UPDATED
+				switch (desScreen)
 				{
-					if (cs.currentFocus != null) //if cup in-play
-					{
-						if (cs.currentFocus.coffeeType == -1) //if no coffee in cup, make sure coffee can be brewed
+					case 1: // coffee brewing
+						if (cs.currentFocus != null) // if cup in-play
 						{
-							enableMachineButton(1);
+							if (cs.currentFocus.coffeeType == -1) // if no coffee in cup
+							{
+								enableMachineButton(1);
+							}
+							else // if coffee in cup
+							{
+								disableMachineButton(1);
+							}
+							enableAnchor(0);
 						}
-						else //if coffee in cup, make sure coffee cannot be overridden (can be deleted when multiple coffees/espresso shots allowed)
+						else // if no cup is in-play
 						{
 							disableMachineButton(1);
 						}
-					}
-					else //if no cup is in-play, disable coffee machine
-					{
-						disableMachineButton(1);
-					}
-				}
-				else if (desScreen == 2) //milk frothing
-				{
-					if (cs.currentFocus != null) //if cup in-play
-					{
-						if (cs.currentFocus.milkType == 0) //if no milk in cup (even after choosing "no milk" option on milk machine), make sure milk can be added
+						break;
+
+					case 2: // milk frothing
+						if (cs.currentFocus != null) // if cup in-play
 						{
-							enableMachineButton(2);
+							if (cs.currentFocus.milkType == 0) // if no milk in cup
+							{
+								enableMachineButton(2);
+							}
+							else // if milk in cup
+							{
+								disableMachineButton(2);
+							}
+							enableAnchor(1);
 						}
-						else // if milk in cup, make sure milk cannot be overridden (can be deleted when multiple milks allowed)
+						else // if no cup is in-play
 						{
 							disableMachineButton(2);
 						}
-					}
-					else //if no cup is in-play, disable milk machine
-					{
-						disableMachineButton(2);
-					}
+						break;
+					case 4: // will be the toppings; temporary the serving state
+
+						// Set current focus to cs.cupAnchor[desScreen - 1].gameObject
+						cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
+						// Disable all station buttons
+						disableAllStationButtons();
+						break;
+					default:
+						break;
 				}
-			} else if (desScreen == 4)
+			}
+				
+		}
+	}
+
+	private void UnloadScenes()
+	{
+		if (SceneManager.sceneCount > 1)
+		{
+			for (int i = 0; i < SceneManager.sceneCount; i++)
 			{
-				cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
-				disableAllStationButtons();
+				Scene scene = SceneManager.GetSceneAt(i);
+				if (scene.name != "Game")
+				{
+					SceneManager.UnloadSceneAsync(scene);
+				}
 			}
 		}
 	}
+
+	private void enableAnchor(int index)
+	{
+		// Disable all cup anchors
+		foreach (var anchor in cs.cupAnchor)
+		{
+			anchor.gameObject.SetActive(false);
+		}
+
+		// Enable the specific cup anchor at the given index
+		cs.cupAnchor[index].gameObject.SetActive(true);
+
+		// If there is a child to cs.cupAnchor[index-1], move it to cs.cupAnchor[index]
+		if (index > 0 && cs.cupAnchor[index - 1].transform.childCount > 0)
+		{
+			Transform parentTransform = cs.cupAnchor[index].transform;
+			Transform childTransform = cs.cupAnchor[index - 1].transform;
+			foreach (Transform child in childTransform)
+			{
+				child.SetParent(parentTransform);
+			}
+		}
+	}
+
 
 	public void updateStationButtons(int desScreen)
 	{
@@ -113,6 +174,14 @@ public class StationControl : MonoBehaviour
 		for (int i = 0; i < stationButtons.Length; i++)
 		{
 			stationButtons[i].interactable = false;
+		}
+	}
+
+	public void EnableAllStationButtons()
+	{
+		for (int i = 0; i < stationButtons.Length; i++)
+		{
+			stationButtons[i].interactable = true;
 		}
 	}
 

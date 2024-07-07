@@ -39,7 +39,7 @@ public class LiquidPourEffectController : MonoBehaviour
 
 		}
 	}
-	public void stopCoffeePouring()
+	public void StopPouring()
 	{
 		StopAllCoroutines();
 		foreach (var lineRenderer in lineRenderers) lineRenderer.gameObject.SetActive(false);

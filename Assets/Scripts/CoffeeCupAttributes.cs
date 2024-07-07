@@ -49,40 +49,90 @@ public class CoffeeCupAttributes : MonoBehaviour
     {
 		coffeeType = desCoffee;
 		switch (coffeeType){
-			case (int)IngredientValues.Coffee.lightRoast:
-				_coffeeMat.SetColor("_WaterColor", new Color(0.545f, 0.4f, 0.27f));
-				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_WaterColor"));
+			case (int)IngredientValues.CoffeeRoast.lightRoast:
+				_coffeeMat.SetColor("_CoffeeColor", new Color(0.545f, 0.4f, 0.27f));
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_CoffeeColor"));
 				break;
-			case (int)IngredientValues.Coffee.mediumRoast:
-				_coffeeMat.SetColor("_WaterColor", new Color(0.38f, 0.208f, 0.09f));
-				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_WaterColor"));
+			case (int)IngredientValues.CoffeeRoast.mediumRoast:
+				_coffeeMat.SetColor("_CoffeeColor", new Color(0.38f, 0.208f, 0.09f));
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_CoffeeColor"));
 				break;
-			case (int)IngredientValues.Coffee.mediumDarkRoast:
-				_coffeeMat.SetColor("_WaterColor", new Color(0.204f, 0.098f, 0.055f));
-				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_WaterColor"));
+			case (int)IngredientValues.CoffeeRoast.mediumDarkRoast:
+				_coffeeMat.SetColor("_CoffeeColor", new Color(0.204f, 0.098f, 0.055f));
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_CoffeeColor"));
 				break;
-			case (int)IngredientValues.Coffee.darkRoast:
-				_coffeeMat.SetColor("_WaterColor", new Color(0.129f, 0.063f, 0.05f));
-				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_WaterColor"));
+			case (int)IngredientValues.CoffeeRoast.darkRoast:
+				_coffeeMat.SetColor("_CoffeeColor", new Color(0.129f, 0.063f, 0.05f));
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_CoffeeColor"));
 				break;
 			default:
-				_coffeeMat.SetColor("_WaterColor", new Color(1f, 1f, 1f));
-				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_WaterColor"));
+				_coffeeMat.SetColor("_CoffeeColor", new Color(1f, 1f, 1f));
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_CoffeeColor"));
 				break;
 		}
     }
 
-
 	public void setMilkType(int desMilk)
 	{
 		milkType = desMilk;
-		if(milkType != (int)IngredientValues.Milk.noMilk)
+		switch (desMilk)
 		{
-			coffeeImg.color = Color.Lerp(Color.white, coffeeImg.color, 0.8f);
+			case (int)IngredientValues.Milk.almondMilk:
+				// Almond milk typically has a light beige color
+				_coffeeMat.SetColor("_MilkColor", new Color(0.94f, 0.87f, 0.80f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.cashewMilk:
+				// Cashew milk is also light beige but slightly warmer
+				_coffeeMat.SetColor("_MilkColor", new Color(0.98f, 0.86f, 0.7f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.coconutMilk:
+				// Coconut milk is usually white or slightly off-white
+				_coffeeMat.SetColor("_MilkColor", new Color(0.98f, 0.98f, 0.91f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.riceMilk:
+				// Rice milk has a light beige to pale white color
+				_coffeeMat.SetColor("_MilkColor", new Color(0.97f, 0.95f, 0.90f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.skimMilk:
+				// Skim milk is almost white but slightly translucent
+				_coffeeMat.SetColor("_MilkColor", new Color(1.0f, 1.0f, 0.94f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.soyMilk:
+				// Soy milk can vary but is typically a light creamy color
+				_coffeeMat.SetColor("_MilkColor", new Color(0.98f, 0.92f, 0.86f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.wholeMilk:
+				// Whole milk is usually a bright white color
+				_coffeeMat.SetColor("_MilkColor", new Color(1.0f, 1.0f, 1.0f, 1.0f));
+				_coffeeMat.SetFloat("_AddMilk", 1); // Blend the milk & coffee
+				LiquidPourEffectController.liquidPourEffectController.SetMaterial(_coffeeMat.GetColor("_MilkColor"));
+				break;
+			case (int)IngredientValues.Milk.noMilk:
+				//  no milk option (transparent)
+				_coffeeMat.SetColor("_MilkColor", new Color(1.0f, 1.0f, 1.0f, 0.0f));
+				_coffeeMat.SetFloat("_AddMilk", 0); //no milk indication
+				break;
+			default:
+				// Default (transparent)
+				_coffeeMat.SetColor("_MilkColor", new Color(1.0f, 1.0f, 1.0f, 0.0f));
+				_coffeeMat.SetFloat("_AddMilk", 0); //no milk indication
+				break;
 		}
 	}
 
-	public IEnumerator FillCup()
+	public IEnumerator PourCoffee()
 	{
 		_coffeeMat.SetFloat("_Progress", 0f);
 		float elapsedTime = 0.0f;
@@ -91,11 +141,28 @@ public class CoffeeCupAttributes : MonoBehaviour
 			elapsedTime += Time.deltaTime;
 			float fillAmount = Mathf.Clamp01(elapsedTime / fillDuration); // Calculate fill amount based on elapsed time.
 			_coffeeMat.SetFloat("_Progress", fillAmount);
-
 			yield return null; // Wait for the next frame.
 		}
 		_coffeeMat.SetFloat("_Progress", 1f);
-		LiquidPourEffectController.liquidPourEffectController.stopCoffeePouring();
+		LiquidPourEffectController.liquidPourEffectController.StopPouring();
 
+	}
+	public IEnumerator PourMilk()
+	{
+		if (_coffeeMat.GetFloat("_Progress") < 1.0f)
+		{
+			float startProgress = _coffeeMat.GetFloat("_Progress"); // Current progress value
+			float elapsedTime = 0.0f;
+			while (elapsedTime < fillDuration)
+			{
+				elapsedTime += Time.deltaTime;
+				float fillAmount = Mathf.Lerp(startProgress, 1.0f, elapsedTime / fillDuration);
+				_coffeeMat.SetFloat("_Progress", fillAmount);
+				yield return null;
+			}
+
+			_coffeeMat.SetFloat("_Progress", 1f);
+			LiquidPourEffectController.liquidPourEffectController.StopPouring();
+		}
 	}
 }

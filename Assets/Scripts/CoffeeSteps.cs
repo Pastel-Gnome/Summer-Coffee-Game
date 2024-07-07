@@ -82,11 +82,13 @@ public class CoffeeSteps : MonoBehaviour
 	{
 		currentFocus.setCoffeeType(desCoffee);
 		LiquidPourEffectController.liquidPourEffectController.Begin();
-		StartCoroutine(currentFocus.FillCup());
+		StartCoroutine(currentFocus.PourCoffee());
 	}
 	public void addMilk(int desMilk)
 	{
 		currentFocus.setMilkType(desMilk);
+		LiquidPourEffectController.liquidPourEffectController.Begin();
+		StartCoroutine(currentFocus.PourMilk());
 	}
 
 	public void addTopping()
@@ -106,7 +108,7 @@ public class CoffeeSteps : MonoBehaviour
 	public void stopCoffeePouring()
 	{
 		StopAllCoroutines();
-		LiquidPourEffectController.liquidPourEffectController.stopCoffeePouring();
+		LiquidPourEffectController.liquidPourEffectController.StopPouring();
 	}
 	public void serveOrder()
 	{

@@ -8,7 +8,7 @@ public class IngredientValues : MonoBehaviour
         Medium,
         Large,
     }
-    public enum Coffee
+    public enum CoffeeRoast
     {
         lightRoast, //tastes light, fruity, and floral. has a higher amount of caffeine.
         mediumRoast, //sweeter than a light roast with a more balanced level of flavor and acidity
@@ -37,7 +37,19 @@ public class IngredientValues : MonoBehaviour
         cinnamonPowder,
         chocolateSyrup,
         caramelSyrup,
-        mint,
-        cherry
+        brownSuger,
+        cherry,
+    }
+
+    public enum Flavor
+    {
+        FrenchVanilla,
+        Caramel,
+        Hazelnut,
+        PumpkinSpice,
+        ButterPecan,
+        Chocolate,
+        WhiteChocolate,
+        Mint
     }
 }
