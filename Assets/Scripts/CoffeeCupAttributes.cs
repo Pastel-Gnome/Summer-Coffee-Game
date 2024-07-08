@@ -8,6 +8,7 @@ public class CoffeeCupAttributes : MonoBehaviour
 	public IngredientValues.CupSize SelectedCupSize;
 	public int coffeeType = -1;
     public int milkType = 0;
+	public IngredientValues.Flavor SelectedFlavor;
     public List<int> toppingsAdded = new List<int>();
 	public Material CoffeeMat;
 
@@ -128,6 +129,44 @@ public class CoffeeCupAttributes : MonoBehaviour
 				// Default (transparent)
 				_coffeeMat.SetColor("_MilkColor", new Color(1.0f, 1.0f, 1.0f, 0.0f));
 				_coffeeMat.SetFloat("_AddMilk", 0); //no milk indication
+				break;
+		}
+	}
+
+	public void addTopping(int desTopping)
+	{
+		toppingsAdded.Add(desTopping);
+		switch (desTopping)
+		{
+			case (int)IngredientValues.Toppings.cream:
+				//added cream
+				break;
+			case (int)IngredientValues.Toppings.whippedCream:
+				//added whippedCream
+				break;
+			case (int)IngredientValues.Toppings.sprinkles:
+				//added sprinkles
+				break;
+			case (int)IngredientValues.Toppings.cocoaPowder:
+				//added cocoaPowder
+				break;
+			case (int)IngredientValues.Toppings.cinnamonPowder:
+				//added cinnamonPowder
+				break;
+			case (int)IngredientValues.Toppings.chocolateSyrup:
+				//added chocolateSyrup
+				break;
+			case (int)IngredientValues.Toppings.caramelSyrup:
+				//added caramelSyrup
+				break;
+			case (int)IngredientValues.Toppings.brownSugar:
+				//added brownSugar
+				break;
+			case (int)IngredientValues.Toppings.cherry:
+				//added cherry
+				break;
+			default:
+				// Default (perhaps have an error object)
 				break;
 		}
 	}

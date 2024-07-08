@@ -61,6 +61,7 @@ public class OrderDisplay : MonoBehaviour
 		currentOrder.milkType = InstantiateRandomMilkPrefab(MilkChoicesPrefabs, MilkTypeContainer);
 		currentOrder.flavor = InstantiateRandomFlavorPrefab(flavorChoicesPrefabs, flavorContainer);
 		currentOrder.toppings = InstantiateRandomToppingsPrefabs(toppingsPrefabs, ToppingsContainer);
+		ScoringSystem.scoringSystem.SaveOrder(currentOrder);
 		LogOrderDetails();
 	}
 

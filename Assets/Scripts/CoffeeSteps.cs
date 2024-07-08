@@ -53,7 +53,6 @@ public class CoffeeSteps : MonoBehaviour
 			}
 			else if (destination == 4)
 			{
-				sc.enableAnchor(3);
 				sc.disableMachineButton(3);
 			}
 			else if (destination != 4)
@@ -99,6 +98,7 @@ public class CoffeeSteps : MonoBehaviour
 	public void addTopping()
 	{
 		// add code here for adding toppings to currentFocus
+		currentFocus.addTopping(0);
 		Debug.Log("Topping Added!");
 	}
 
@@ -118,6 +118,14 @@ public class CoffeeSteps : MonoBehaviour
 	public void serveOrder()
 	{
 		removeCupFromMachine(4);
+		scoreOrder();
+	}
+
+	public void scoreOrder()
+	{
+		Debug.Log("Scoring now...");
+		ScoringSystem.scoringSystem.LoadCoffee(currentFocus);
+		ScoringSystem.scoringSystem.CheckOrderToCoffee();
 	}
 
 	public void completeServingOrder()

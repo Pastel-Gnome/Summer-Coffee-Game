@@ -37,7 +37,7 @@ public class IngredientValues : MonoBehaviour
         cinnamonPowder,
         chocolateSyrup,
         caramelSyrup,
-        brownSuger,
+        brownSugar,
         cherry,
     }
 

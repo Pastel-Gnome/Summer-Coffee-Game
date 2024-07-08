@@ -6112,6 +6112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1331301969}
   - component: {fileID: 1331301970}
+  - component: {fileID: 1331301971}
   m_Layer: 5
   m_Name: Stations
   m_TagString: Untagged
@@ -6164,6 +6165,18 @@ MonoBehaviour:
   sc: {fileID: 235844520}
   cupPrefab: {fileID: 2523034495742640049, guid: 258229882771b904dab308330ef7d4fa, type: 3}
   currentScreen: {fileID: 1486005259}
+--- !u!114 &1331301971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331301968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a7d39fb7dc59c48b2534526717f22d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1427261653
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,7 +64,7 @@ public class StationControl : MonoBehaviour
 		{
 			updateStationButtons(desScreen);
 
-			if (desScreen > 0 && desScreen < 4)
+			if (desScreen > 0 && desScreen <= 4)
 			{
 				cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
 				// WOULD NEED TO UPDATE ONCE THE UI IS UPDATED
