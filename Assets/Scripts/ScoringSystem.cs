@@ -34,6 +34,11 @@ public class ScoringSystem : MonoBehaviour
 		Debug.Log(currentCoffee != null);
 	}
 
+	public int CheckOrdersAmount()
+	{
+		return orders.Count;
+	}
+
 	public void ChangeActiveOrder(int desOrder)
 	{
 		orderIndex = desOrder;
@@ -55,5 +60,6 @@ public class ScoringSystem : MonoBehaviour
 
 		scoreValue += Mathf.Max(TOPPING_SCORE - Mathf.Abs((currentCoffee.toppingsAdded.Count - orders[orderIndex].toppings.Length)), 0);
 		Debug.Log("Final Score: " + scoreValue);
+		orders.RemoveAt(orderIndex);
 	}
 }

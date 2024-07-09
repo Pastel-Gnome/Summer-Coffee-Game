@@ -96,7 +96,7 @@ public class OrderDisplay : MonoBehaviour
 			}
 		}
 
-		StationControl.stationControl.EnableAllStationButtons();
+		StationControl.stationControl.updateStationButtons(0);
 	}
 
 	private IngredientValues.CupSize InstantiateRandomCupSize(CupSizeIndicator[] prefabs, GameObject container)

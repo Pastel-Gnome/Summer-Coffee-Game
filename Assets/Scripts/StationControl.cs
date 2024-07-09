@@ -13,6 +13,7 @@ public class StationControl : MonoBehaviour
 	[SerializeField] Button brewCoffeeButton;
 	[SerializeField] Button chooseMilkButton;
 	[SerializeField] Button addToppingsButton;
+	[SerializeField] Button serveButton;
 	[SerializeField] GameObject CupSizeChoices;
 	[SerializeField] GameObject coffeeChoices;
 	[SerializeField] GameObject milkChoices;
@@ -67,6 +68,7 @@ public class StationControl : MonoBehaviour
 			if (desScreen > 0 && desScreen <= 4)
 			{
 				cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
+				enableAnchor(desScreen - 1);
 				// WOULD NEED TO UPDATE ONCE THE UI IS UPDATED
 				switch (desScreen)
 				{
@@ -81,7 +83,6 @@ public class StationControl : MonoBehaviour
 							{
 								disableMachineButton(1);
 							}
-							enableAnchor(0);
 						}
 						else // if no cup is in-play
 						{
@@ -100,7 +101,6 @@ public class StationControl : MonoBehaviour
 							{
 								disableMachineButton(2);
 							}
-							enableAnchor(1);
 						}
 						else // if no cup is in-play
 						{
@@ -108,17 +108,9 @@ public class StationControl : MonoBehaviour
 						}
 						break;
 					case 3: // topping 
-						if (cs.currentFocus != null) // if cup in-play
+						if (cs.currentFocus != null && ScoringSystem.scoringSystem.CheckOrdersAmount() > 0) // if cup in-play
 						{
-							if (cs.currentFocus.toppingsAdded.Count == 0) // if no milk in cup
-							{
-								enableMachineButton(3);
-							}
-							else // if milk in cup
-							{
-								disableMachineButton(3);
-							}
-							enableAnchor(2);
+							enableMachineButton(3);
 						}
 						else // if no cup is in-play
 						{
@@ -126,7 +118,6 @@ public class StationControl : MonoBehaviour
 						}
 						break;
 					case 4: // will be the toppings; temporary the serving state
-						enableAnchor(3);
 
 						// Set current focus to cs.cupAnchor[desScreen - 1].gameObject
 						cs.setCurrentFocus(cs.cupAnchor[desScreen - 1].gameObject);
@@ -166,17 +157,6 @@ public class StationControl : MonoBehaviour
 
 		// Enable the specific cup anchor at the given index
 		cs.cupAnchor[index].gameObject.SetActive(true);
-
-		// If there is a child to cs.cupAnchor[index-1], move it to cs.cupAnchor[index]
-		if (index > 0 && cs.cupAnchor[index - 1].transform.childCount > 0)
-		{
-			Transform parentTransform = cs.cupAnchor[index].transform;
-			Transform childTransform = cs.cupAnchor[index - 1].transform;
-			foreach (Transform child in childTransform)
-			{
-				child.SetParent(parentTransform);
-			}
-		}
 	}
 
 
@@ -215,9 +195,10 @@ public class StationControl : MonoBehaviour
 		{
 			chooseMilkButton.interactable = false;
 		}
-		else if (station == 3) //milk station
+		else if (station == 3) //topping station
 		{
 			addToppingsButton.interactable = false;
+			serveButton.interactable = false;
 		}
 	}
 
@@ -231,9 +212,10 @@ public class StationControl : MonoBehaviour
 		{
 			chooseMilkButton.interactable = true;
 		}
-		else if (station == 3) //milk station
+		else if (station == 3) //topping station
 		{
 			addToppingsButton.interactable = true;
+			serveButton.interactable = true;
 		}
 	}
 
@@ -258,6 +240,18 @@ public class StationControl : MonoBehaviour
 		else if (station == 2) //milk station
 		{
 			milkChoices.SetActive(false);
+		}
+	}
+
+	public void resetMachine(int station) //reset to allow another cup
+	{
+		if (station == 1) //brewing station
+		{
+			isCupSizeSelected = false;
+		}
+		else if (station == 2) //milk station
+		{
+			
 		}
 	}
 }

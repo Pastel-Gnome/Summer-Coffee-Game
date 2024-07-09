@@ -45,6 +45,7 @@ public class CoffeeSteps : MonoBehaviour
 			{
 				// brewing station completed, send to milk station and reset brewing station
 				sc.disableMachineButton(1);
+				sc.resetMachine(1);
 			}
 			else if (destination == 3)
 			{
@@ -60,8 +61,20 @@ public class CoffeeSteps : MonoBehaviour
 				Debug.LogError("Removed cup from machine but no valid destination given. No action taken, returned to machine.");
 				destination = 1;
 			}
-			currentFocus.transform.SetParent(cupAnchor[destination-1], false); //there are currently never any cups sent to destination "0" (order station), change number values if this becomes true
-			currentFocus.transform.position = cupAnchor[destination-1].position;
+			//currentFocus.transform.SetParent(cupAnchor[destination-1], false); //there are currently never any cups sent to destination "0" (order station), change number values if this becomes true
+			
+
+			// If there is a child to cs.cupAnchor[index-1], move it to cs.cupAnchor[index]
+			if (destination - 1 > 0 && cupAnchor[destination - 2].transform.childCount > 0)
+			{
+				Transform parentTransform = cupAnchor[destination - 1].transform;
+				Transform childTransform = cupAnchor[destination - 2].transform;
+				foreach (Transform child in childTransform)
+				{
+					child.SetParent(parentTransform);
+					child.position = parentTransform.position;
+				}
+			}
 		}
 		
 		currentFocus = null; //currently this always runs and therefore always moves to the next screen, but this should change if multiple cups are allowed
@@ -134,6 +147,9 @@ public class CoffeeSteps : MonoBehaviour
 		if (currentFocus == null)
 		{
 			sc.setCurrentScreen(0);
+			Button orderButton = currentScreen.GetComponentInChildren<Button>(true);
+			orderButton.interactable = true;
+			orderButton.gameObject.SetActive(true);
 		}/* else
 		{
 			sc.setCurrentScreen(currentFocus.myStation); // either set to first station or last station containing a cup
