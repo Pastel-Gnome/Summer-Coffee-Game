@@ -58,7 +58,7 @@ public class ScoringSystem : MonoBehaviour
 		if (currentCoffee.milkType == ((int)orders[orderIndex].milkType)) scoreValue += MILK_FLAVOR_SCORE / 2;
 		if (currentCoffee.SelectedFlavor == orders[orderIndex].flavor) scoreValue += MILK_FLAVOR_SCORE / 2;
 
-		scoreValue += Mathf.Max(TOPPING_SCORE - Mathf.Abs((currentCoffee.toppingsAdded.Count - orders[orderIndex].toppings.Length)), 0);
+		scoreValue += TOPPING_SCORE * Mathf.Max((1 - (Mathf.Abs((float)currentCoffee.toppingsAdded.Count - (float)orders[orderIndex].toppings.Length) / (float)orders[orderIndex].toppings.Length)), 0);
 		Debug.Log("Final Score: " + scoreValue);
 		orders.RemoveAt(orderIndex);
 	}
