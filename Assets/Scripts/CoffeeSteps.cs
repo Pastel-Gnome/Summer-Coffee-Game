@@ -7,7 +7,7 @@ public class CoffeeSteps : MonoBehaviour
 	public Transform[] cupAnchor;
 	[SerializeField] StationControl sc;
 	[SerializeField] GameObject cupPrefab;
-	[SerializeField] GameObject currentScreen;
+	public GameObject currentScreen;
 	public void startOrder() //activated on order screen
 	{
 		OrderDisplay.orderDisplay.StartOrder();
@@ -36,6 +36,7 @@ public class CoffeeSteps : MonoBehaviour
 			// send to trash or complete order (make a branch if special actions associated with trash, such as sound effects)
 			if (currentFocus != null)
 			{
+				if(currentScreen.name == "Brewing Station Panel") sc.resetMachine(1);
 				Destroy(currentFocus.gameObject);
 			}
 		}

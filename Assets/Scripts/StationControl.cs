@@ -57,7 +57,8 @@ public class StationControl : MonoBehaviour
 		{
 			cs.transform.GetChild(i).gameObject.SetActive(false);
 		}
-		cs.transform.GetChild(desScreen).gameObject.SetActive(true);
+		cs.currentScreen = cs.transform.GetChild(desScreen).gameObject;
+		cs.currentScreen.SetActive(true);
 		UnloadScenes();
 		SceneManager.LoadScene(stationScenesNames[desScreen], LoadSceneMode.Additive);
 
