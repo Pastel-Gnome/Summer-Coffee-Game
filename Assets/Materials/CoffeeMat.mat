@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -34,17 +34,24 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
+    - _AddFoam: 0
     - _AddMilk: 0
+    - _Blend: 0.445
     - _EnableExternalAlpha: 0
-    - _Progress: 0
+    - _FillAmount: 0.5
+    - _FoamLineHeight: 0.0096
+    - _InnerGlowPower: 0
+    - _Progress: 1
     - _WaterAngle: 4
     - _WaterTransparency: -3.56
-    - _WaveFrequency: -180
-    - _WaveStrength: 3
+    - _WaveFrequency: 180
+    - _WaveStrength: 2
     m_Colors:
-    - _CoffeeColor: {r: 0.37254903, g: 0.12156863, b: 0, a: 1}
+    - _CoffeeColor: {r: 0.42352945, g: 0.18431373, b: 0, a: 1}
     - _Color: {r: 0.37254903, g: 0.12156863, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _InnerGlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _MilkColor: {r: 0.9, g: 0.76, b: 0.55, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _WaterColor: {r: 0.37106913, g: 0.12154876, b: 0, a: 1}

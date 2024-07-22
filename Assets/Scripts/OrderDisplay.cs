@@ -62,6 +62,7 @@ public class OrderDisplay : MonoBehaviour
 		currentOrder.flavor = InstantiateRandomFlavorPrefab(flavorChoicesPrefabs, flavorContainer);
 		currentOrder.toppings = InstantiateRandomToppingsPrefabs(toppingsPrefabs, ToppingsContainer);
 		ScoringSystem.scoringSystem.SaveOrder(currentOrder);
+		StationControl.stationControl.currentOrder = currentOrder;
 		LogOrderDetails();
 	}
 
@@ -98,7 +99,11 @@ public class OrderDisplay : MonoBehaviour
 
 		StationControl.stationControl.updateStationButtons(0);
 	}
-
+	public void ShowOrder()
+	{
+		foreach (var prefab in ingredientsEntries) prefab.alpha = 1;
+		foreach (var prefab in dottedLinePrefabs) prefab.alpha = 1;
+	}
 	private IngredientValues.CupSize InstantiateRandomCupSize(CupSizeIndicator[] prefabs, GameObject container)
 	{
 		int randomIndex = Random.Range(0, prefabs.Length);

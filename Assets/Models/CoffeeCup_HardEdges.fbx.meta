@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f228ee1a796122c4f83cfc6d9a2f214d
+guid: d433a0a0c98ebed4eaa4afb0578171f2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Plastic
-    second: {fileID: 2100000, guid: bee19f55fe366e74baa1dceb16418e47, type: 2}
+    second: {fileID: 2100000, guid: b0bda5b0b688397478a1dffc6784c6ba, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

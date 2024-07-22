@@ -14,17 +14,19 @@ public class CoffeeCupAttributes : MonoBehaviour
 
 	public MeshRenderer coffeeMesh;
 	private GameObject coffeeObj;
-	private Image coffeeImg;
 	private Material _coffeeMat;
 	[SerializeField] private float fillDuration = 60f; // Duration for filling coffee (currently 1 minutes).
+
+	private float desiredBlend;
 
 	private void Awake()
 	{
 		coffeeObj = transform.GetChild(0).gameObject;
-		coffeeImg = coffeeObj.GetComponent<Image>();
 		_coffeeMat = new Material(CoffeeMat);
 		coffeeMesh.sharedMaterial = _coffeeMat;
-		_coffeeMat.SetFloat("Progress", 0f);
+		_coffeeMat.SetFloat("_FillAmount", 0f);
+		desiredBlend =_coffeeMat.GetFloat("_Blend");
+
 
 	}
 	public void SetCupSize(IngredientValues.CupSize selectedCupSize)
@@ -173,34 +175,46 @@ public class CoffeeCupAttributes : MonoBehaviour
 
 	public IEnumerator PourCoffee()
 	{
-		_coffeeMat.SetFloat("_Progress", 0f);
+		_coffeeMat.SetFloat("_FillAmount", 0f);
 		float elapsedTime = 0.0f;
 		while (elapsedTime < fillDuration)
 		{
 			elapsedTime += Time.deltaTime;
 			float fillAmount = Mathf.Clamp01(elapsedTime / fillDuration); // Calculate fill amount based on elapsed time.
-			_coffeeMat.SetFloat("_Progress", fillAmount);
+			_coffeeMat.SetFloat("_FillAmount", fillAmount);
 			yield return null; // Wait for the next frame.
 		}
-		_coffeeMat.SetFloat("_Progress", 1f);
+		_coffeeMat.SetFloat("_FillAmount", 1f);
 		LiquidPourEffectController.liquidPourEffectController.StopPouring();
 
 	}
+	public void SetBlending()
+	{
+		if (_coffeeMat.GetFloat("_AddMilk") == 1)
+		{
+			_coffeeMat.SetFloat("_Blend", desiredBlend);
+		}
+	}
 	public IEnumerator PourMilk()
 	{
-		if (_coffeeMat.GetFloat("_Progress") < 1.0f)
+		if (_coffeeMat.GetFloat("_FillAmount") < 1.0f)
 		{
-			float startProgress = _coffeeMat.GetFloat("_Progress"); // Current progress value
+			float startProgress = _coffeeMat.GetFloat("_FillAmount"); // Current progress value
+			_coffeeMat.SetFloat("_Blend", 0f);
+			_coffeeMat.SetFloat("_AddMilk", 1f);
 			float elapsedTime = 0.0f;
 			while (elapsedTime < fillDuration)
 			{
 				elapsedTime += Time.deltaTime;
 				float fillAmount = Mathf.Lerp(startProgress, 1.0f, elapsedTime / fillDuration);
-				_coffeeMat.SetFloat("_Progress", fillAmount);
+				float BlendAmount = Mathf.Lerp(0.0f, desiredBlend, elapsedTime / fillDuration);
+				_coffeeMat.SetFloat("_FillAmount", fillAmount);
+				_coffeeMat.SetFloat("_Blend", BlendAmount);
 				yield return null;
 			}
 
-			_coffeeMat.SetFloat("_Progress", 1f);
+			_coffeeMat.SetFloat("_FillAmount", 1f);
+			_coffeeMat.SetFloat("_Blend", desiredBlend);
 			LiquidPourEffectController.liquidPourEffectController.StopPouring();
 		}
 	}

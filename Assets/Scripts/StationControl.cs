@@ -19,6 +19,7 @@ public class StationControl : MonoBehaviour
 	[SerializeField] GameObject milkChoices;
 
 	private bool isCupSizeSelected = false;
+	public Order currentOrder;
 
 	public bool IsCupSizeSelected
 	{
@@ -129,7 +130,10 @@ public class StationControl : MonoBehaviour
 						break;
 				}
 			}
+			else if(desScreen == 0)
+			{
 				
+			}	
 		}
 	}
 

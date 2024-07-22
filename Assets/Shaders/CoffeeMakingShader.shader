@@ -2,93 +2,149 @@
 {
     Properties
     {
-        _Progress ("Progress", Range(0.0, 1.0)) = 0.5
-        _CoffeeColor ("CoffeeColor", Color) = (0.4, 0.2, 0.1, 1.0)
-        _MilkColor ("MilkColor", Color) = ( 0.9, 0.76, 0.55, 1.0)
+        [HideInInspector]_MainTex ("Texture", 2D) = "white" {}
+        
+        [Header(Coffee Properties)]
+        _FillAmount ("Fill Amount", Range(0,1)) = 0.0
+        _CoffeeColor ("Tint", Color) = (1,1,1,1)
+        
+        [Header(Milk Properties)]
         [Toggle]_AddMilk ("Add Milk", Float) = 0.0  // Toggle for milk addition: 0 = No milk, 1 = Add milk
-        _WaveStrength ("WaveStrength", Float) = 2.0
-        _WaveFrequency ("WaveFrequency", Float) = 180.0
-        _WaterTransparency ("WaterTransparency", Float) = 1.0
-        _WaterAngle ("WaterAngle", Float) = 4.0
-        [HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
-        [HideInInspector] _Flip ("Flip", Vector) = (1,1,1,1)
-        [PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
-        [PerRendererData] _EnableExternalAlpha ("Enable External Alpha", Float) = 0
+        _MilkColor ("MilkColor", Color) = ( 0.9, 0.76, 0.55, 1.0)
+        _Blend ("Blend", Range(0,1)) = 0.0
+
+        [Header(Foam Properties)]
+        [Toggle]_AddFoam ("Add Foam", Float) = 0.0  // Toggle for Foam addition: 0 = No Foam, 1 = Add Foam
+        _FoamColor ("Foam Color", Color) = (1,1,1,1)
+        _FoamLineHeight ("Foam Line Width", Range(0,0.1)) = 0.0
+
+        [Header(Inner Glow Properties)]
+        _InnerGlowColor ("Rim Color", Color) = (1,1,1,1)
+        _InnerGlowPower ("Rim Power", Range(0,10)) = 0.0
+        
+        [Header(Wobble Behaviour Properties)]
+        _WaveStrength ("Wave Strength", Float) = 2.0
+        _WaveFrequency ("Wave Frequency", Float) = 180.0
     }
 
     SubShader
     {
-        Tags
-        {
-            "Queue"="Geometry"
-        }
-
-        Cull Off
-        Lighting Off
-        ZWrite Off
-        Blend One OneMinusSrcAlpha
-
+        Tags {"Queue"="Geometry"  "DisableBatching" = "True" }
+  
         Pass
         {
+            Zwrite On
+            Cull Off
+            AlphaToMask On
+
             CGPROGRAM
-            #pragma vertex SpriteVert
+
+            #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
-            #include "UnitySprites.cginc"
-
-            float _Progress;
-            fixed4 _CoffeeColor;     
-            fixed4 _MilkColor;
-            float _AddMilk;
-            float _WaveStrength;
-            float _WaveFrequency;
-            float _WaterTransparency;
-            float _WaterAngle;
-
-            fixed4 drawLiquid(fixed4 coffee_color, fixed4 milk_color, float add_milk, sampler2D color, float transparency, float height, float angle, float wave_strength, float wave_frequency, fixed2 uv)
+            #pragma multi_compile_fog
+            #include "UnityCG.cginc"
+ 
+            struct appdata
             {
-                float iTime = _Time;
-                angle *= uv.y / height + angle / 1.5;
-                wave_strength /= 1000.0;
-                float wave = sin(10.0 * uv.y + 10.0 * uv.x + wave_frequency * iTime) * wave_strength;
-                wave += sin(20.0 * -uv.y + 20.0 * uv.x + wave_frequency * 1.0 * iTime) * wave_strength * 0.5;
-                wave += sin(15.0 * -uv.y + 15.0 * -uv.x + wave_frequency * 0.6 * iTime) * wave_strength * 1.3;
-                wave += sin(3.0 * -uv.y + 3.0 * -uv.x + wave_frequency * 0.3 * iTime) * wave_strength * 10.0;
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;    
+            };
+ 
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                UNITY_FOG_COORDS(1)
+                float4 vertex : SV_POSITION;
+                float3 viewDir : COLOR;
+                float3 normal : COLOR2;        
+                float fillEdge : TEXCOORD2;
+            };
+ 
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            float _FillAmount;
+            float4 _FoamColor, _InnerGlowColor, _CoffeeColor,_MilkColor;
+            float _FoamLineHeight, _InnerGlowPower, _Blend;
+            float _WaveStrength, _WaveFrequency;
+            float _AddMilk, _AddFoam;
 
-                if (uv.y - wave <= height)
-                {
-                    // Determine the liquid color based on whether milk is added
-                    fixed4 liquidColor = lerp(coffee_color, milk_color, add_milk*0.5);
-                    return lerp(
-                        lerp(
-                            tex2D(color, fixed2(uv.x, ((1.0 + angle) * (height + wave) - angle * uv.y + wave))),
-                            liquidColor,
-                            0.6 - (0.3 - (0.3 * uv.y / height))),
-                        tex2D(color, fixed2(uv.x + wave, uv.y - wave)),
-                        transparency - (transparency * uv.y / height)
-                    );
-                }
-                else
-                {
-                    return fixed4(0, 0, 0, 0);
-                }
+            v2f vert (appdata v)
+            {
+                v2f o;
+
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                UNITY_TRANSFER_FOG(o, o.vertex);            
+                
+                // Get world position of the vertex
+                float3 worldPos = mul(unity_ObjectToWorld, v.vertex.xyz);   
+                
+                float fillLevel = _FillAmount/2; 
+                
+                // Apply wobbling effect
+                float wave = sin(10.0 * worldPos.y + 10.0 * worldPos.x + _WaveFrequency * _Time) * (_WaveStrength / 1000.0);
+                wave += sin(20.0 * -worldPos.y + 20.0 * worldPos.x + _WaveFrequency * 0.5 * _Time) * (_WaveStrength / 2000.0);
+                wave += sin(15.0 * -worldPos.y + 15.0 * -worldPos.x + _WaveFrequency * 0.6 * _Time) * (_WaveStrength / 769.2);
+                wave += sin(3.0 * -worldPos.y + 3.0 * -worldPos.x + _WaveFrequency * 0.3 * _Time) * (_WaveStrength / 100.0);
+
+                // Adjust fill edge with wobble and foam height
+                o.fillEdge = worldPos.y + wave - fillLevel;
+
+                o.viewDir = normalize(ObjSpaceViewDir(v.vertex));
+                o.normal = v.normal;
+                return o;
             }
-
-            fixed4 frag (v2f i) : COLOR
+           
+            fixed4 frag (v2f i, fixed facing : VFACE) : SV_Target
             {
-                fixed2 uv = i.texcoord;
-                float WATER_HEIGHT = _Progress;
-                float4 COFFEE_COLOR = _CoffeeColor;
-                float4 MILK_COLOR = _MilkColor;
-                float ADD_MILK = _AddMilk;
-                float WAVE_STRENGTH = _WaveStrength;
-                float WAVE_FREQUENCY = _WaveFrequency;
-                float WATER_TRANSPARENCY = _WaterTransparency;
-                float WATER_ANGLE = _WaterAngle;
+                if (_FillAmount > 0.0) {
+                    
+                    // Sample the texture
+                    fixed4 col = tex2D(_MainTex, i.uv) * _CoffeeColor;
+                    
+                    // Apply fog
+                    UNITY_APPLY_FOG(i.fogCoord, col);
+                
+                    // Rim light
+                    float dotProduct = 1 - pow(dot(i.normal, i.viewDir), _InnerGlowPower);
+                    float4 RimResult = smoothstep(0.5, 1.0, dotProduct);
+                    RimResult *= _InnerGlowColor;
+                    if(_AddFoam == 0){
+                        _FoamLineHeight = 0;
+                    }   
+                    // Foam edge
+                    float foam = (step(i.fillEdge, 0.0) - step(i.fillEdge, -_FoamLineHeight));
+                    float4 foamColored = foam * _FoamColor;
+                
+                    // Rest of the liquid
+                    float result = step(i.fillEdge, 0.0) - foam;
+                    float4 resultColored = result * col;
+                
+                    // Combine foam and liquid
+                    float4 finalResult = resultColored + foamColored;                
+                    finalResult.rgb += RimResult;
+                   
+                    if(_AddMilk == 1){
+                       finalResult.rgb = lerp(finalResult.rgb, _MilkColor.rgb, _Blend);
+                    }       
+                    // Color of backfaces / toptaksmanager
 
-                fixed4 fragColor = drawLiquid(COFFEE_COLOR, MILK_COLOR, ADD_MILK, _MainTex, WATER_TRANSPARENCY, WATER_HEIGHT, WATER_ANGLE, WAVE_STRENGTH, WAVE_FREQUENCY, uv);
-                return fragColor;
+                    float4 topColor = _CoffeeColor * (foam + result);
+                    if(_AddFoam && _AddMilk){
+                        topColor = lerp(_FoamColor, _MilkColor, _Blend) * (foam + result);     
+                    }else if(_AddMilk == 1)
+                    {
+                        topColor = _MilkColor  * (foam + result);
+                    }else if(_AddFoam == 1)
+                    {
+                        topColor = _FoamColor  * (foam + result);
+                    }
+                    // VFACE returns positive for front facing, negative for backfacing
+                    return facing > 0 ? finalResult : topColor;
+                   
+                }
+                return fixed4(1,1,1,0);
             }
             ENDCG
         }
